@@ -1,5 +1,4 @@
 import sys
-from monster.provisioners import *
 from monster.util import module_classes
 
 
