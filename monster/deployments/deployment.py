@@ -11,7 +11,8 @@ class Deployment(object):
     """Base for OpenStack deployments
     """
 
-    def __init__(self, name, os_name, branch, provisioner, status, product,
+    def __init__(self, name, environment, os_name, branch, provisioner,
+                 status, product,
                  clients=None):
         self.name = name
         self.os_name = os_name
@@ -22,6 +23,7 @@ class Deployment(object):
         self.provisioner = str(provisioner)
         self.product = product
         self.clients = clients
+        self.environment = environment
 
     def __repr__(self):
         """
@@ -29,6 +31,8 @@ class Deployment(object):
         """
 
         outl = 'class: ' + self.__class__.__name__
+        features = ''
+        nodes = ''
         for attr in self.__dict__:
             if attr == 'features':
                 features = "\tFeatures: {0}".format(
@@ -127,7 +131,7 @@ class Deployment(object):
         self.etc_path = "/etc/"
         self.misc_path = "misc/"
 
-        if self.deployment.os_name == 'precise':
+        if self.os_name == 'precise':
             self.list_packages_cmd = ["dpkg -l"]
         else:
             self.list_packages_cmd = ["rpm -qa"]
