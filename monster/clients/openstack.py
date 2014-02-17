@@ -10,10 +10,12 @@ class Creds(dict):
     """
     Credentials to authenticate with OpenStack
     """
-    def __init__(self, username=None, password=None, apikey=None,
-                 region=None, auth_url=None, auth_system=None,
-                 tenant_name=None, project_id=None, insecure=False,
-                 cacert=None):
+
+    def __init__(self, username=None, password=None, apikey=None, region=None,
+                 auth_url=None, auth_system=None, tenant_name=None,
+                 project_id=None, insecure=False, cacert=None, **kwargs):
+
+        super(Creds, self).__init__(**kwargs)
         self.username = username
         self.tenant_name = tenant_name
         self.apikey = apikey
@@ -23,6 +25,7 @@ class Creds(dict):
         self.insecure = insecure
         self.cacert = cacert
         self.auth_url = auth_url
+        self.auth_system = auth_system
 
 
 class Clients(object):
@@ -55,7 +58,6 @@ class Clients(object):
             'auth_system': self.creds.system
         })
 
-        key = None
         if 'password' in self.creds:
             key = self.creds['password']
         else:
